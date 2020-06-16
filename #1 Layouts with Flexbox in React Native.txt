@@ -1,0 +1,46 @@
+#1 0 Layouts with Flexbox in React Native
+
+리액트 네이티브에서 사용되는 레이아웃에 대해서 알아보도록 하자.
+expo에 관한 이야기가 아니고, 모든 것에 적용되는 리액트 네이티브 이야기이다.
+export default function App() {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.text}>Hello!!!</Text>
+      <Text style={styles.text}>Hello!!!</Text>	//한번 더 써보았다.
+    </View>
+  );
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,			//여기 flex:1 이라고 있는데
+    backgroundColor: "red",
+    alignItems: "center",
+    color: "white",
+    justifyContent: "center",
+  },
+  text: {
+    color: "white",
+    width: "100%",
+  },
+});
+
+이렇게 하면 결과가 
+Hello!!!
+Hello!!!
+이렇게나온다. 이유는 리액트 네이티브에서 모든 flex box의 디폴트는	flexdircetion:column 이다.
+웹사이트에서 모든 flex 박스의 디폴트는 로우(row)인 반면에 말이다.
+왜냐면 모바일 폰에서는 대게 모든게 서로 아래에 있으니까 그렇다. 그래서 flex direction 기본값이 칼럼이다. 
+물론 내가 바꾸고 싶다면 바꿀수 있다. flexDiection: :"row" 이런식으로
+
+그리고 flex:1 보통 웹사이트에서는 flex:1 or flex:2 라고 하지않는다.
+
+container 는 부모고 그리고 자식은 노란색 파란색이다. 부모 컨테이너는 flex1이고, 모든 공간을 사용가능하다는것을 의미한다.
+container의 flex1을 지우면 화면에 아무것도 나타나지 않는다. 이건 웹사이트에서 쓰는 CSS,JavaScript같은게 아니다. 좀더 구체적인게 사실 여기에 필요하다.
+
+블루뷰랑 노랑뷰도 flex1이라서 똑같이 모든 공간을 쓸수 있게 가질것이다. 문제는 둘다 flex:1이라는것이다. 양쪽다 모든공간을 쓰고 싶어한다.
+이경우에는 그렇게 할수 없다, 왜냐면 또 다른 flex 컨테이너 옆에 붙어있으니까
+만약에 블루뷰 flex:1 노랑뷰 flex:2라고한다면 블루뷰가 1/3의 화면을 차지하고, 노랑뷰 2/3화면을 차지한다. 
+리액트 네이티브 매직으로, width,height 같은 것들을 많이 쓸 필요가 없다.
+니콜라스는 늘 flex로 레이아웃 코딩을 하라고 권장한다. 왜냐면, 만약에 누군가 사이즈가 좀 더 큰폰을 가지고 있거나, iPad에서 열어본다거나, 더 작은 폰을 가지고 있다거나, 아니면 폰을 회전 시킨다거나할때 맞춰질것이다. 만약에 flex 박스로 만들었다면 말이다.
+
+
