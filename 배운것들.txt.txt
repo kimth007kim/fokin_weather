@@ -1,0 +1,11 @@
+Await란 무엇인가?
+Await는 연산자이다. Promise를 기다리는 연산자 이다. 이것은 오직 async함수와만 함께 사용할수 있다.
+
+-예시
+async function f3() {
+  var y = await 20;
+  console.log(y); // 20
+}
+
+f3();
+

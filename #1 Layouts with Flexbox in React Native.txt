@@ -45,3 +45,58 @@ container의 flex1을 지우면 화면에 아무것도 나타나지 않는다. �
 
 #1 1 Loading Screen
 우리의 로딩 스크린들을 만들어보자. 스크린들은 텍스트들을 가질것이다. app.js에다가 만들수도 있지만 우리는 react 개발자 이므로 새로운파일을 만들자.
+
+#1.2 Getting the Location
+
+geolocation 상황을 보자. 엑스포, 아니 리액트 네이티브로 가서 geolocation을 검색해보자. 하지만 여기나온 geolocation을 파워풀하지 않다는 점이다.
+expo로 가서 geolocation을 보면
+
+geofencing여기서 베스트다. 사용자가 어떤지역에 들어갔을때, 떠 났을때를 알고 싶다면 사용하면된다.
+
+그리고 location을 사용하고 싶다면 공식 문서에서 나오는 대로 이렇게 입력을 해주면 된다.
+expo install expo-location
+이렇게 설치하고 어떻게 이것을 사용할까? import 해야한다.
+import * as Location from 'expo-location';
+이렇게 import 하면 우리가 원하는 기능을 사용할 수가 있다. 이것은 expo최신버전이고 내가 앱에 포함시키고 싶어하는것을 선택 할수 있게 해준다.
+
+
+#1 3 Asking for Permissions
+
+permission 요청을 위해서는 이것만 하면된다. 
+Location requestPermissionAsync(), Async라는 단어를 보면, 이것은 awiait가 필요하기 때문이다.
+permissions이 승인됐을때 resolve된 promise를 리턴해라. 거절되면 denied로 리턴한다.
+
+그래서 우리가 해야할일은 try catch문 안에다가 넣어보는 것이다.
+
+
+getLocation = async()=>{							//비동기 함수 선언
+  try {									//사용자가 permission을 안주면, 에러를 발생시킨다. 자바스크립트 에러
+	const response = await Location.requsestPermissionAsync();		//response 는 Location.requestPermissionAsync()메소드가 실행되기까지 기다린다.
+	console.log(response);						//실행되면 console.log에 찍는다. 하지만 값이 없어서 undefined가 나온다 그러므로 이 문장을 삭제한다.
+    } catch (error) {
+	Alert.alert("Can't find you ", "so sad");					//사용자가 response를 안줬을때 Alert문을 발생시킨다.
+    }
+};
+
+그리고 Alert를 React-Native에서 사용하고 싶다면 import를 해주어야한다.
+import {Alert} from "react-native";
+
+이렇게하면 getCurrentPositionAsync(); 메소드를 사용할 수 있다. 사용을 하게되면
+Object{
+	"coords" : Object{
+		"accuracy': 5,
+		"altitude": 0,
+		"altitudeAccuracy": -1,
+		"heading": -1,
+		"longitude":-122
+		"speed":1
+		         }
+}
+이런식으로 나오게 된다. 이렇게 하면 사용자의 위치정보를 얻은것이다! 
+
+이 location을 저장해보자. 여기 coords오브젝트가 있다. location오브젝트안에 es6를 사용해서  coords를 가져오자. 
+그러니까 coord.latitude말고 latitude와 longitude를 coords에서 가져올것이다.
+ const {
+        coords: { latitude, longitude },			//여기에 latitude와 longitude를 API에 전송해서 데이터를 가져올것이다.
+      } = await Location.getCurrentPositionAsync();
+      this.setState({ isLoading: false });
