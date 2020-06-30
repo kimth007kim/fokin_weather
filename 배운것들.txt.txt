@@ -2,10 +2,20 @@ Await란 무엇인가?
 Await는 연산자이다. Promise를 기다리는 연산자 이다. 이것은 오직 async함수와만 함께 사용할수 있다.
 
 -예시
-async function f3() {
+async function f3() { 
   var y = await 20;
   console.log(y); // 20
 }
 
 f3();
+
+Async란?
+
+Async 함수는 async 키워드를 선언한 함수이다. async 함수는 AsyncFunction객체를 반환하는 하나의 비동기 함수를 정의합니다.
+비동기 함수는 이벤트루프를 통해 비동기적으로 작동하는 함수로, 암시적으로 Promise를 사용하여 결과를 반환한다. 그러나 비동기 함수를 사용하는 코드의 구문과 구조는 표준동기 함수를 사용하는것과 많이 비슷하다.
+
+AsyncFunction란?
+
+Async Function 생성자는 새로운 asyncFunction 객체를 만든다. 자바스크립트에서 모든 비동기 함수는 사실상 AsyncFunction 객체이다.
+
 

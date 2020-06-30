@@ -100,3 +100,89 @@ Object{
         coords: { latitude, longitude },			//여기에 latitude와 longitude를 API에 전송해서 데이터를 가져올것이다.
       } = await Location.getCurrentPositionAsync();
       this.setState({ isLoading: false });
+
+
+#1.4 Getting the Weather
+
+데이터를 가져오기 위해서 우리가 사용할 API는 https://openweathermap.org/ 
+이다. API를 보면 Current weather data라는 칸이있다. 이것을 사용하기 위해서는 계정이 필요한데 로그인을 해주자!
+home화면-API keys 라는 칸이 있을것이다. 있으면 사용하고 없으면 생성하면 된다.
+나의 것은 아래의 것이다.
+
+847052a0a3702dc2f2148d7098fffeab
+
+이것을 복사해서 app.js로 가서 const로 만들어보자. 이제 API key는 가지고있고 이제 무엇을 할수있는지 살펴봅시다.
+우리가 원하는 것은 current weather data를 가져오는것이고, API doc으로 가보자.
+By City name,By City ID 이것들 둘다 우리가 가지지 않은 것들이다. By geographic coordinates 이것은 우리가 우너하는것이다. API 호출만 해주면 된다.
+API call:
+api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={your api key}
+
+latitude 값이랑 longitude값을 보내준다. 끝내준다.
+
+http://api.openweathermap.org/data/2.5/weather?lat=37.3088225&lon=126.8160457&appid=847052a0a3702dc2f2148d7098fffeab
+내 api key와 latitude, longitude를 적어서 URL에 입력을 하게 된다면
+{
+"cod":401,
+ "message": "Invalid API key. Please see http://openweathermap.org/faq#error401 for more info."
+}
+이런식으로 나오게된다. API Key가 없다 그러니까 여기 API Key가 여기에 있는데 URL을 포함을 안시켰다. 그래서 문서를 보게된다면 어떻게 API Key를 포함시키는지 말을 안해준다.
+하지만 Example of using API Key in API call 에 들어가서 방법을 찾아보자
+
+http://api.openweathermap.org/data/2.5/forecast?id=524901&APPID={YOUR API KEY}
+이렇게되어있으니 다시 입력해주면 
+http://api.openweathermap.org/data/2.5/weather?lat=37.3088225&lon=126.8160457&APPID=847052a0a3702dc2f2148d7098fffeab
+정확하게 결과가 나온다. API를 가져오고 있다!
+
+이제  내가 Axios를 좋아하니까 fetch를 위해서 Axios를 설치할것이다. 왜냐면 우리는 이데이터들을 fetch해야 하기때문이다.
+Axios
+개념: node.js와 브라우저를 위한 http통신 javascript 라이브러리
+
+
+우리는 URL을 fetch해야 하므로 우리앱안에서 새로운 함수를 하나 만들것이다. getWeather = async()=>{} 해놓고
+Axios를 다운로드해보자
+npm install axios
+
+그리고 설치가 완료되면 다음과 같이해보자.
+
+
+ try {
+      await Location.requestPermissionsAsync();
+      const {
+        coords: { latitude, longitude },
+      } = await Location.getCurrentPositionAsync();
+      // console.log(latitude, longitude);
+      this.getWeather(latitude, longitude);	//getWeather함수를 호출해보자 같은인자들이 함수에 넘겨질것이다.
+      this.setState({ isLoading: false });
+
+그리고 Axios를 import해보자 
+import axios from "axios";
+
+
+이제 우리는 axios를 아니까 
+
+export default class extends React.Component {
+  state = {
+    isLoading: true,
+  };
+  getWeather = async (latitude, longitude) => {		
+    const { data } = await axios.get(									//axios가 data라고 불리는 변수에다가 무엇인가를 줄것이다.
+      `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&APPID=${API_KEY}`	//``이렇게 시작하는것은 백틱이다. 백틱을 왜 사용하냐면 변수를 문자열에 다포함시키려고 사용한다.
+    ); 												//그리고 변수는 ${} 이렇게사용한다 이런방식을 template strings라고 부른다. es6방식이다.
+    console.log(data);				
+  };
+  getLocation = async () => {
+    try {
+      await Location.requestPermissionsAsync();
+      const {
+        coords: { latitude, longitude },
+      } = await Location.getCurrentPositionAsync();
+      // console.log(latitude, longitude);
+      this.getWeather(latitude, longitude);
+      this.setState({ isLoading: false });
+
+이렇게하면 잘 작동한다.
+
+Step#1: API 호출 Part#1 그다음에 우리가 가져온 데이터들을 좀 더 보기 좋게 할것이다.
+
+
+
