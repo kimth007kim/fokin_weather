@@ -1,0 +1,70 @@
+#2 0 Displaying Temperature
+
+Current weather data에 Unit format을 보면 2개의 옵션이있다. unit=imperial랑 unit=metric
+Metric은 Celsius(섭씨) 원할때, Celsius가 우리가 원하는것이다.
+왜냐면 우리가 가져온 포멧에서는 화씨로 작성되어있다. 한국에서는 섭씨를 사용하니까 섭시로 바꾸어보자.
+우리들의 쿼리에다가 다음의 문구를 추가해보도록 하자.
+&units=metric
+이렇게 바꾸면 성공적으로 섭씨로 적용이 완료되었다. 그리고 우리는 받아온 json에서 날씨를 신경써야하는데 날씨는 배열로되어있다.
+ 
+그리고 계획을 세워보자. 이걸 배열을 보면 온도랑 아이콘이 필요하다. 그게 첫번쨰로 해야할일이다. 우리는 온도를 가지고 있지만 아이콘은 가지고 있지 않다. 만들어야한다.
+우리가 가진 모든 다른옵션을 만들어야한다. 예를들면 날씨정보를 주는곳에서 name="haze"이고 다른것은 "Clouds"이다. 그래서 이 name들을 전부알아야한다. 하지만 지금은 신경쓰지말자.
+다시! 이 name들이 필요하냐면, 만약에 name이 haze라면.. 사용자에게 haze를 보여줄것이다. 어딨을까? haze? 여기는 없다.(니콜라스가 만든것)
+그래서 우리가 전부 알아야한다. 컬러도 다를것이고, 아이콘도, 텍스트도 달라질것이니까
+
+지금은 일단 temperature 컴포넌트만 하자. 컴포넌트를 만드는데 이름은 Weather.js 이고 이것은 몇개의 props를 가질것이다.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+props,state란?
+데이터를 다룰때 사용되는 개념이다. 
+
+props는 부모 컴포넌트가 자식컴포넌트에게 전달하는데이터로 자식입장에서는 읽기전용이다.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+5:24
+그러므로 우리는 하나를 install 해주어야 한다.
+npm install prop-types 
+
+Weather.js에다가
+
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";		// 그 View는 텍스트가 있따.
+import PropTypes from "prop-types";
+
+export default function Weather({ temp }) {		//
+  //Text는 temoerature가 될것이다.
+  return (						//무언가를 리턴하긴 해야한다.
+    <View style={styles.container}>			//view를 리턴하자. 그 view는 text를 가지고 있을것이다.
+      <Text>{temp}</Text>
+    </View>
+  );
+}
+
+Weather.PropTypes = {
+  temp: PropTupes.number.isRequired, 		//temp는 number가 될것이다.(온도는 숫자이기 때문에)
+};
+
+const styles = StyleSheet.create({			//stylesheet 만들기
+  container: {					//이것의 이름은 container
+    flex: 1,
+    justifyContent: "center",				//모든것을 중심으로 가게하자
+    alignItems: "center",
+  },
+});
+
+그리고 weather는 stateless 컴포넌트가 될것이다.
+export default Weather(){
+    
+}
+이렇게 작성해주자 그리고 app.js에서
+  render() {
+    const { isLoading, temp } = this.state;
+    return isLoading ? <Loading /> : <Weather temp={Math.round(temp)} />;
+  }
+}
+
+  return isLoading ? <Loading /> : null;을 이렇게 바꿔주자.
+
+
+
+
+
+
