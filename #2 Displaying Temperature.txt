@@ -103,3 +103,33 @@ import { Ionicons } from '@expo/vector-icons';
 
 그리고 다음 비디오에서는 배경색 작업을 할것이다. 왜냐면 생각하는것만큼 쉽지않다. 이건 css가 아니라 gradient이기 때문이다.
 css에서는 gradient하기 쉬운데 리액트네이티브에서는 뭔가를 더해야한다.
+
+
+#2.3 Background Gradient
+
+우리가 이용하고 싶은것은 LinearGradient라는 것이다. 
+그래서 밑의 문구를 입력해서 다운로드 받도록 하자.
+expo install expo-linear-gradient
+
+그리고 사용할 파일에다가 하단의 문구를 import 해주면된다.
+import { LinearGradient } from 'expo-linear-gradient';
+
+그리고 공식문서에 나온것을 복사해서 사용해보자.
+<LinearGradient
+          colors={['#4c669f', '#3b5998', '#192f6a']}
+          style={{ padding: 15, alignItems: 'center', borderRadius: 5 }}>
+</LinearGradient>
+
+잘적용이 된다. 따라서 LinearGradient는 view 같은것이다.
+
+그리고 우리는 상태바의 색깔이 검정색인데 이것을 다른색깔로 바꾸고 싶다 그것역시도 리액트 네티이브에 존재한다.
+임포트문을 이렇게해준다.
+import { View, Text, StyleSheet, StatusBar } from "react-native";
+
+그리고 하단의 문구를 나의 컴포넌트안에 넣어야한다.
+<StatusBar>
+
+그리고 이제 뭘할거냐면 
+
+#2.4 Titles and Subtitles
+타이틀 및 섭타이틀 설정
