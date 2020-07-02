@@ -64,7 +64,23 @@ export default Weather(){
   return isLoading ? <Loading /> : null;을 이렇게 바꿔주자.
 
 
+#2.1 Getting the Condition Names
 
+Open Weather에서 API documentation에 가보면 여기 Current Weather data에 List of condition codes가 있다.
+여기서 우리는 icons들은 신경쓰지 않을것이고, names들은 신경을 써야한다. thunderstrom이 그중에 하나이고, 복사-붙여넣기를 하자.
 
+그래서 Weather.js에서 Weather.propTypes밑에다가 아래의 내용을 추가해주자.
+condition: PropTypes.oneOf([
+    "Thunderstorm",
+    "Drizzle",
+    "	Rain",
+    "	Snow",
+    "Clear",
+    "Clouds",
+    "Atmosphere",
+  ]).isRequired,		// isRequired도 해주어야 불평하지 않는다. 
 
+근데 여기까지 해주면 value가 undefined가 됐다. 지금 그말은, condition name을 넣어 줘야 한다는 의미이다.
+App.js로 가서 state가 들어가는 부분에다가 condition을 추가해주도록 하자. 하지만 이것은 좋은방법이아니다.
 
+우리가 받고 있는 response는 이것이다. 우리가 원하는것은 condition 네임들이고 이경우에는 Weather안에 딱하나의 배열이있다. 그리고 main에 condition네임이 있다. 그래서 첫번째 요소를 가져와야한다.

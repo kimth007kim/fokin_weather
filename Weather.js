@@ -11,8 +11,20 @@ export default function Weather({ temp }) {
   );
 }
 
-Weather.PropTypes = {
-  temp: PropTupes.number.isRequired, //temp는 number가 될것이다.
+Weather.propTypes = {
+  temp: PropTypes.number.isRequired, //temp는 number가 될것이다.
+  condition: PropTypes.oneOf([
+    "Thunderstorm",
+    "Drizzle",
+    "Rain",
+    "Snow",
+    "Atmosphere",
+    "Clear",
+    "Clouds",
+    "Haze",
+    "Mist",
+    "Dust",
+  ]).isRequired,
 };
 
 const styles = StyleSheet.create({
